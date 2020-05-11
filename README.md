@@ -1,6 +1,6 @@
-# Metagenomica
+# README
 ### Daisy Obispo, 2020
-#### Pipeline bioinformático para procesamiento de datos metagenómicos generados por la plataforma Miseq (Illumina)
+#### Análisis de datos metagenómicos generados por la plataforma Miseq (Illumina)
 
 Este es un repositorio para análisis de la región ITS2 (hongos) para estudios metagenómicos. Los datos provienen de la plataforma de secuenciación Illumina. 
 
