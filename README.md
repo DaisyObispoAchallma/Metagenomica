@@ -7,8 +7,10 @@ Este es un repositorio para análisis de la región ITS2 (hongos) para estudios 
 El repositorio contiene la siguiente estructura:
 
 **`/bin`**: Esta carpeta contiene los archivos ejecutables para el análisis metagenómico. 
-	`bin/MetaGen.sh` : es el script en bash que contiene un flujo de trabajo usando el programa [AMPtk](https://amptk.readthedocs.io/en/latest/pre-processing.html?highlight=padding)
-	`bin/plots_MetaGen.Rmd` : es el script en R Markdown que contiene los análisis estadísticos del archivo `taxonomy.biom`, 	obtenido ejecutando el script anterior. 
+
+* `bin/MetaGen.sh` : es el script en bash que contiene un flujo de trabajo usando el programa [AMPtk](https://amptk.readthedocs.io/en/latest/pre-processing.html?highlight=padding)
+
+* `bin/plots_MetaGen.Rmd` : es el script en R Markdown que contiene los análisis estadísticos del archivo `taxonomy.biom`, obtenido ejecutando el script anterior. 
 
 **`/data`**: Esta carpeta contiene el archivo `taxonomy.biom` obtenido como output de la ejecución del script.
 	`data/taxonomy.biom` : es el archivo obtenido al ejecutar `MetaGen.sh` , el cúal contiene información que agrupa la tabla de OTUs, tabla de taxonomiía y la tabla de las muestras en un solo documento de formato `.biom`
