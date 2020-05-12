@@ -13,8 +13,10 @@ El repositorio contiene la siguiente estructura:
 * `bin/plots_MetaGen.Rmd` : es el script en R Markdown que contiene los análisis estadísticos del archivo `taxonomy.biom`, obtenido ejecutando el script anterior. 
 
 **`/data`**: Esta carpeta contiene el archivo `taxonomy.biom` obtenido como output de la ejecución del script.
-	`data/taxonomy.biom` : es el archivo obtenido al ejecutar `MetaGen.sh` , el cúal contiene información que agrupa la tabla de OTUs, tabla de taxonomiía y la tabla de las muestras en un solo documento de formato `.biom`
-	`data/metagenomics.html` : es el informe del análisis estadísticos obtenido al ejecutar el script `plots_MetaGen.Rmd` 
+
+*`data/taxonomy.biom` : es el archivo obtenido al ejecutar `MetaGen.sh` , el cúal contiene información que agrupa la tabla de OTUs, tabla de taxonomiía y la tabla de las muestras en un solo documento de formato `.biom`
+
+*`data/metagenomics.html` : es el informe del análisis estadísticos obtenido al ejecutar el script `plots_MetaGen.Rmd` 
 
 ##### Interpretación de los resultados
 
