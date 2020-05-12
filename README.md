@@ -20,12 +20,12 @@ El repositorio contiene la siguiente estructura:
 
 ##### Interpretación de los resultados
 
-#####Descripción del análisis ejecutado por `MetaGen.sh`:
+##### Descripción del análisis ejecutado por `MetaGen.sh`:
 
 Se evaluó el párametro min_len dentro de la herramienta AMPtk, que corresponde a remover secuencias con longitud mínima, se aplicaron valores de 200 y 300 bp. Usando `min_len 200` se identificaron taxónomicamente 1257 OTUs y con el párametro de `min_len 300` se identificaron 329 OTUs.
 Estos resultados demuestran que al relajar el valor de `min_len 200` se recupera mayor cantidad de OTUs, siendo determinante para un posterior análisis y además de considerar valores basados en calidades no tan exigentes. Se debe de realizar la elección del párametro evaluado de manera óptima y teniendo en cuenta los criterios de calidad adecuados para obtener secuencias de mayor tamaño y con alta confianza de la asignación taxónomica de los OTUs. Sin embargo, al usar párametros más estrictos como `min_len 300` se corre el riesgo de perder información contrarrestando con una mayor calidad. 
 
-#####Descripción del análisis ejecutado por `plot_MetaGen.Rmd`:
+##### Descripción del análisis ejecutado por `plot_MetaGen.Rmd`:
 
 Se obtuvó un número total de 1257 OTUs en 12 muestras de suelo rizosférico recolectados en sitios de bosque nativo (N) y mixto (M) de Quercus (Q) y de Juniperus (J). En el análisis de diversidad alfa (ver Figura 1, en metagenomics.html), se obsservo que el *Phylum* predominante fue de *Ascomycota*, seguido por *Basidiomycota* y *Blastocladiomycota* , teniendo un patrón similar en Quercus y Juniperus, además se visualiza que en *Juniperus* existe una mayor abundancia de OTUs, y dentro de este grupo los bosques nativos tienen más abundancia que los mixtos. Al realizar el test de ANOVA, no se encontraron diferencias significativas de la abundacia observada en relación con el hospedero y el tratamiento.
 
