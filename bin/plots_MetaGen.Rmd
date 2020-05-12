@@ -1,1 +1,152 @@
+---
+title: "**Metagenomica**"
+author: "Daisy Maria Obispo Achallma"
+date: "11/5/2020"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### **Información general**
+
+Este script escrito en *R* fue diseñado para utilizar el archivo `taxonomy.biom` generado por la herramienta _AMPtk_ para procesar datos de metagenómica que provienen de la plataforma de secuenciación Illumina.
+
+Se trabajo con datos provenientes de la secuenciación metagenómica de la región ITS2 (hongos) de 12 muestras de suelo rizosférico recolectados en sitios de bosque nativo (N) y mixto (M) de Quercus (Q) y de Juniperus (J).
+
+### **Metodología**
+
+El procesamiento bioinformático para el análisis de datos de los *Operational Taxonomic Units* (OTUs) fue realizado usando `R version 3.6.1`, detallado a continuación:
+
+##### **1. Acondicionamiento del ambiente de trabajo**
+Para realizar la importación de los datos, se debe de configurar el ambiente de trabajo,
+
+```{r message=FALSE, warning=FALSE}
+#Definir el directorio de trabajo, el cuál contiene el archivo `taxonomy.biom`
+##LLamar a las librerías a utilizar
+library(phyloseq)
+library(vegan)
+library(ggplot2)
+```
+
+##### **1. Importar los datos**
+
+```{r eval=TRUE, message=TRUE}
+suelo <- import_biom("C://Users/DAISY - PC/Desktop/Curso_Introdu_bioinfo_invest_reproducible_análisis_genómicos/Unidad_8/Unid_8.1/data_processed_min_200/taxonomy.biom")
+suelo
+```
+
+_Visualización de los datos:_
+
+```{r message=TRUE}
+head(tax_table(suelo))
+sample_data(suelo)
+```
+
+##### **2. Transformación de los datos**
+
+Para realizar la transformación de los datos se modificará la tabla de OTUs usando el paquete `vegan` con la función `decostand (method="pa")` para generar una tabla binaria de **presencia/ausencia**.  Luego de ello se gennerará un nuevo proyecto denomimado *phyloseq*
+
+```{r message=FALSE, warning=FALSE}
+#Extraer las tablas dentro de taxonomy.biom
+otu_table <- as.data.frame(otu_table(suelo)) #Tabla de OTUs
+tax_table <- suelo@tax_table #Tabla de taxonomía
+sam_data <-suelo@sam_data #Tabla de muestras
+#Crear tabla binaria de OTUs
+pa <- decostand(otu_table, method = "pa")
+#Transformación de la tabla creada al formato phyloseq
+otu_table_bin <-phyloseq(otu_table(pa, taxa_are_rows= TRUE))
+#Crear el proyecto phyloseq con todas las tablas
+suelo_phy <-merge_phyloseq(otu_table_bin,tax_table,sam_data)
+```
+
+##### **3. Análisis de la diversidad alfa**
+
+Se realizo el anális de la abundancia de OTUS mediante el análisis de la diversidad alfa del nivel *phylum*  según el tratamiento y el hospedero.
+
+```{r}
+#Modificar nombre de columnas en la tabla de taxonomía
+colnames(tax_table(suelo_phy)) <- c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+#Realizar un plot_bar de la abundancia de OTUs por phylum en cada hospedero (host) y tratamiento (treatment) usando facet_wrap
+a = plot_bar(suelo_phy,"Treatment", fill="Phylum") + geom_bar (aes(color=Phylum,fill=Phylum),stat = "identity", position = "stack")
+a + facet_wrap("Host")
+```
+
+**Figura 1**. Distribución de la abundancia de OTUs según tratamiento y hospedero.
+
+
+##### **4. Análisis de Índices de diversidad**
+
+Se realizo el cálculo de índices de diversidad usando el paquete `phyloseq` con la función `estimate_richness`
+
+```{r eval=TRUE}
+#Calcular índices de diversidad 
+diversity <- estimate_richness(suelo_phy,measures = c("Observed", "Fisher"))
+#Combinar las tabla de diversidad con las muestras 
+data <- cbind(sample_data(suelo_phy),diversity)
+```
+
+##### **5. Prueba de ANOVA**
+
+Se realizó una test de ANOVA de dos vías, de la riqueza observada ("Observed") por hospedero y tratamiento.
+
+```{r eval=TRUE}
+anova <- aov(Observed ~ Host * Treatment, data= data)
+summary(anova)
+```
+
+_Visualizar las varianza:_
+```{r}
+#Ver la variabilidad en Hospedero
+boxplot(Observed ~ Host, data=data)
+```
+
+**Figura 2**. Distribución de los datos observados según hospedero.
+
+```{r}
+#Ver la variabilidad en Tratamiento
+boxplot(Observed ~ Treatment, data=data)
+```
+
+**Figura 3**. Distribución de los datos observados según tratamiento.
+
+##### **6. Análisis de la diversidad beta**
+El ánalisis corresponde a determinar la relación entre las muestras con respecto al número de OTUs que comparten. Para ello se realizó una ordenación basado en construir una matriz de disimilitud usando Non-metric multidimensional scaling (`NMDS`) y la medida de distancia `Raup-Crick`.
+
+```{r eval=TRUE}
+# Matriz de distancia de Raup-Crick 
+rc <- distance(suelo_phy, method = "raup")
+rc
+```
+
+```{r eval=TRUE, message=TRUE}
+#Ordenación usando NMDS
+NMDS <- ordinate(suelo_phy, method = "NMDS", distance = rc, color = "Host", shape = "Treatment")
+NMDS
+```
+_NOTA:_ Se obtuvo un valor de stress de 0.1322731, lo cuál indica una buena ordenación de las muestras evaluadas
+
+Se realizó la Visualización de la ordenación del hospedero y tratamiento usando `facet_wrap`
+
+```{r eval=TRUE}
+plot_ordination(suelo_phy, NMDS , color = "Host", shape = "Treatment") +
+  geom_point(size=3) +
+  facet_wrap(~Treatment) +
+  theme_bw()
+```
+
+**Figura 4**. ordenación de las muestras según tratamiento y hospedero.
+
+##### **7. Análisis estadístico de las diferencias entre las especies **
+
+Se realizó un test de ADONIS de la composición de la comunidad por hospedero y tratamiento.
+
+```{r eval=TRUE}
+#Test para hospedero
+adonis (rc ~ Host, data=data)
+#Test para tratamiento
+adonis (rc ~ Treatment, data=data)
+#Test para hospedero y tratamiento 
+adonis (rc ~ Host * Treatment, data=data)
+```
