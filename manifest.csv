@@ -1,0 +1,17 @@
+sample-id;absolute-filepath;direction;
+S150811211;/content/filter_data_fastq/S150811211_trimmed_R1.fastq.gz;forward;
+S150811211;/content/filter_data_fastq/S150811211_trimmed_R2.fastq.gz;reverse;
+S1888;/content/filter_data_fastq/S1888_trimmed_R1.fastq.gz;forward;
+S1888;/content/filter_data_fastq/S1888_trimmed_R2.fastq.gz;reverse;
+S191091211;/content/filter_data_fastq/S191091211_trimmed_R1.fastq.gz;forward;
+S191091211;/content/filter_data_fastq/S191091211_trimmed_R2.fastq.gz;reverse;
+S6062121;/content/filter_data_fastq/S6062121_trimmed_R1.fastq.gz;forward;
+S6062121;/content/filter_data_fastq/S6062121_trimmed_R2.fastq.gz;reverse;
+SF0501211;/content/filter_data_fastq/SF0501211_trimmed_R1.fastq.gz;forward;
+SF0501211;/content/filter_data_fastq/SF0501211_trimmed_R2.fastq.gz;reverse;
+SG90081211;/content/filter_data_fastq/SG90081211_trimmed_R1.fastq.gz;forward;
+SG90081211;/content/filter_data_fastq/SG90081211_trimmed_R2.fastq.gz;reverse;
+SG9046827;/content/filter_data_fastq/SG9046827_trimmed_R1.fastq.gz;forward;
+SG9046827;/content/filter_data_fastq/SG9046827_trimmed_R2.fastq.gz;reverse;
+SX103114;/content/filter_data_fastq/SX103114_trimmed_R1.fastq.gz;forward;
+SX103114;/content/filter_data_fastq/SX103114_trimmed_R2.fastq.gz;reverse;
